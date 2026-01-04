@@ -1,5 +1,6 @@
 
 import express from "express";
+import { Upload } from "../middleware/uploadImage.js";
 import createEvent from '../controller/event_section/create_event.js'
 import getAllEvents from '../controller/event_section/getAll_event.js'
 import getEventById from '../controller/event_section/getSingle_event.js'
@@ -9,15 +10,16 @@ import registerForEvent from '../controller/event_section/registerStudent_event.
 import removeParticipant from '../controller/event_section/removeStudent_event.js'
 import addWinners from '../controller/event_section/addWinners_event.js'
 import updateEventStatus from '../controller/event_section/updateStatus_event.js'
-
+import findEventByStatus from "../controller/event_section/getEventByStatus.js";
 
 
 const router = express.Router();
 
-router.post("/", createEvent);
+router.post("/", Upload , createEvent);
 router.get("/", getAllEvents);
+router.get("/status" , findEventByStatus);
+router.put("/:id", Upload , updateEvent);
 router.get("/:id", getEventById);
-router.put("/:id", updateEvent);
 router.delete("/:id", deleteEvent);
 
 /* Extra Functional Routes */

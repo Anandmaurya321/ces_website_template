@@ -6,10 +6,17 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 const ManageEvents = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchEvents = async () => {
-    const res = await api.get("/api/events");
-    setEvents(res.data);
+    try {
+      const res = await api.get("/api/events");
+      setEvents(res.data.events || []); // ✅ FIX
+    } catch (err) {
+      console.error("Failed to fetch events", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -19,13 +26,16 @@ const ManageEvents = () => {
   const deleteEvent = async (id) => {
     if (!window.confirm("Delete this event?")) return;
 
-    await api.delete(`/api/events/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-      },
-    });
-
-    fetchEvents();
+    try {
+      await api.delete(`/api/events/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        },
+      });
+      fetchEvents();
+    } catch (err) {
+      console.error("Delete failed", err);
+    }
   };
 
   return (
@@ -43,36 +53,44 @@ const ManageEvents = () => {
           </button>
         </div>
 
-        <div className="bg-white rounded shadow divide-y">
-          {events.map((event) => (
-            <div
-              key={event._id}
-              className="p-4 flex justify-between items-center"
-            >
-              <div>
-                <p className="font-semibold">{event.title}</p>
-                <p className="text-sm text-gray-500 capitalize">
-                  {event.status}
-                </p>
-              </div>
+        {loading ? (
+          <p className="text-center py-10">Loading events...</p>
+        ) : events.length === 0 ? (
+          <p className="text-center py-10 text-gray-600">
+            No events found
+          </p>
+        ) : (
+          <div className="bg-white rounded shadow divide-y">
+            {events.map((event) => (
+              <div
+                key={event._id}
+                className="p-4 flex justify-between items-center"
+              >
+                <div>
+                  <p className="font-semibold">{event.title}</p>
+                  <p className="text-sm text-gray-500 capitalize">
+                    {event.status}
+                  </p>
+                </div>
 
-              <div className="space-x-3">
-                <button
-                  onClick={() => navigate(`/admin/events/${event._id}`)}
-                  className="text-blue-700"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => deleteEvent(event._id)}
-                  className="text-red-600"
-                >
-                  Delete
-                </button>
+                <div className="space-x-3">
+                  <button
+                    onClick={() => navigate(`/admin/events/${event._id}`)}
+                    className="text-blue-700"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteEvent(event._id)}
+                    className="text-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

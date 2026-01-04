@@ -75,8 +75,13 @@ const Profile = () => {
         </div>
 
         <div className="mt-8 flex justify-between">
+          
           <button
-            onClick={() => navigate("/profile/edit")}
+            onClick={() =>
+              navigate("/profile/edit", {
+                state: { student },
+              })
+            }
             className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800"
           >
             Edit Profile

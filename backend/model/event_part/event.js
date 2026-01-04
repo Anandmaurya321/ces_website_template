@@ -82,7 +82,7 @@ const eventSchema = new mongoose.Schema(
 
     /* Event Poster */
     poster: {
-      type: String, // Cloudinary / S3 URL
+      type: String, 
       default: "",
     },
 

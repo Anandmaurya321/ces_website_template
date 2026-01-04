@@ -26,6 +26,8 @@ import StudentProtectedRoute from './pages/student/StudentProtectedRoutes'
 import ManageEvents from './pages/admin/manageEvent'
 import EditEvent from './pages/admin/editEvent'
 import CreateEvent from './pages/admin/createEvent'
+import EditProfile from './pages/student/editProfile'
+
 // import ViewAdmin from './pages/admin/'
 // import EditAdmin from './pages/admin/'
 
@@ -140,6 +142,12 @@ function App() {
               <Route path="/profile" element={
                 <StudentProtectedRoute>
                   <StudentProfile />
+                </StudentProtectedRoute>}
+              />
+
+              <Route path="/profile/edit" element={
+                <StudentProtectedRoute>
+                  <EditProfile />
                 </StudentProtectedRoute>}
               />
 

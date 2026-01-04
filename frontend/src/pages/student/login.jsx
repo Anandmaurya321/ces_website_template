@@ -31,9 +31,9 @@ const Login = () => {
       // 🔐 Save token & student info
       localStorage.setItem("studentToken", res.data.token);
       localStorage.setItem("studentInfo", JSON.stringify(res.data.student));
-
-      // Redirect to profile/dashboard
-      navigate("/profile");
+      navigate('/')
+      window.location.reload();
+      
 
     } catch (err) {
       console.error(err);

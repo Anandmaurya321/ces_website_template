@@ -3,7 +3,7 @@
 import { upload } from "../config/cloudinary.js";
 
 const Upload = (req, res, next) => {
-  upload.single('image')(req, res, (err) => {
+  upload.single('poster')(req, res, (err) => {
     
     if (err) { // send json response instead of crashing ::>>>
       console.error("Upload middleware error:", err.message);

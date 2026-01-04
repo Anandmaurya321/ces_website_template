@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Image as ImageIcon } from "lucide-react";
 import api from "../../hooks/api";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 
 const CreateEvent = () => {
   const navigate = useNavigate();
+  const [image, setImage] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -15,7 +17,6 @@ const CreateEvent = () => {
     startDate: "",
     endDate: "",
     venue: "",
-    poster: "",
     registrationRequired: true,
     registrationDeadline: "",
     maxParticipants: "",
@@ -25,29 +26,36 @@ const CreateEvent = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   const submit = async (e) => {
     e.preventDefault();
 
-    await api.post(
-      "/api/events",
-      {
-        ...formData,
-        tags: formData.tags
-          ? formData.tags.split(",").map(t => t.trim().toLowerCase())
-          : [],
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-        },
+    const data = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "tags") {
+        const tagsArray = value
+          ? value.split(",").map(t => t.trim().toLowerCase())
+          : [];
+        data.append("tags", JSON.stringify(tagsArray));
+      } else {
+        data.append(key, value);
       }
-    );
+    });
+
+    if (image) data.append("poster", image);
+
+    await api.post("/api/events", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     navigate("/admin/events");
   };
@@ -64,12 +72,7 @@ const CreateEvent = () => {
           className="bg-white p-6 rounded shadow max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           {/* Title */}
-          <input
-            name="title"
-            placeholder="Event Title"
-            required
-            onChange={handleChange}
-          />
+          <input name="title" placeholder="Event Title" required onChange={handleChange} />
 
           {/* Event Type */}
           <select name="eventType" required onChange={handleChange}>
@@ -93,13 +96,12 @@ const CreateEvent = () => {
             <option value="data_science">Data Science</option>
             <option value="blockchain">Blockchain</option>
             <option value="robotics">Robotics</option>
-            <option value="fun">Fun</option>
             <option value="general">General</option>
           </select>
 
           {/* Tentative Month */}
           <select name="tentativeMonth" required onChange={handleChange}>
-            <option value="">Select Month</option>
+            <option value="">Tentative Month (Planning)</option>
             {[
               "January","February","March","April","May","June",
               "July","August","September","October","November","December",
@@ -108,23 +110,24 @@ const CreateEvent = () => {
             ))}
           </select>
 
-          {/* Dates */}
-          <input type="date" name="startDate" onChange={handleChange} />
-          <input type="date" name="endDate" onChange={handleChange} />
+          {/* Start Date */}
+          <div>
+            <input type="date" name="startDate" onChange={handleChange} />
+            <p className="text-xs text-gray-500 mt-1">
+              Event start date (when the event begins)
+            </p>
+          </div>
+
+          {/* End Date */}
+          <div>
+            <input type="date" name="endDate" onChange={handleChange} />
+            <p className="text-xs text-gray-500 mt-1">
+              Event end date (same as start date for single-day events)
+            </p>
+          </div>
 
           {/* Venue */}
-          <input
-            name="venue"
-            placeholder="Venue"
-            onChange={handleChange}
-          />
-
-          {/* Poster */}
-          <input
-            name="poster"
-            placeholder="Poster URL"
-            onChange={handleChange}
-          />
+          <input name="venue" placeholder="Venue / Location" onChange={handleChange} />
 
           {/* Registration Required */}
           <label className="flex items-center gap-2">
@@ -138,17 +141,18 @@ const CreateEvent = () => {
           </label>
 
           {/* Registration Deadline */}
-          <input
-            type="date"
-            name="registrationDeadline"
-            onChange={handleChange}
-          />
+          <div>
+            <input type="date" name="registrationDeadline" onChange={handleChange} />
+            <p className="text-xs text-gray-500 mt-1">
+              Last date students can register
+            </p>
+          </div>
 
           {/* Max Participants */}
           <input
             type="number"
             name="maxParticipants"
-            placeholder="Max Participants"
+            placeholder="Maximum Participants"
             onChange={handleChange}
           />
 
@@ -163,19 +167,46 @@ const CreateEvent = () => {
           {/* Description */}
           <textarea
             name="description"
-            placeholder="Event Description"
+            placeholder="Describe the event, rules, eligibility, prizes, etc."
             className="md:col-span-2"
             required
             onChange={handleChange}
           />
 
           {/* Tags */}
-          <input
-            name="tags"
-            placeholder="Tags (comma separated)"
-            className="md:col-span-2"
-            onChange={handleChange}
-          />
+          <div className="md:col-span-2">
+            <input
+              name="tags"
+              placeholder="Tags (comma separated)"
+              onChange={handleChange}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Example: coding, ces, hackathon, ai, beginners
+            </p>
+          </div>
+
+          {/* Poster Upload (Moved to Bottom) */}
+          <div className="md:col-span-2 space-y-2 mt-4">
+            <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-1">
+              Event Poster
+            </label>
+
+            <label className="flex items-center justify-center w-full h-32 px-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/30 group">
+              <div className="flex flex-col items-center space-y-2">
+                <ImageIcon className="w-8 h-8 text-slate-400 group-hover:text-indigo-500" />
+                <span className="font-medium text-slate-500 text-sm">
+                  {image ? image.name : "Upload event poster (recommended 1:1 or 16:9)"}
+                </span>
+              </div>
+
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </label>
+          </div>
 
           <button className="bg-blue-900 text-white py-2 rounded md:col-span-2">
             Create Event
