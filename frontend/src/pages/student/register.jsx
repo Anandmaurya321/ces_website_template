@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../hooks/api";
+import { SITE_CONFIG } from "../../config/site_config";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,20 +17,19 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔹 Handle input change
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // 🔹 Submit form
+  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     const { name, email, enrollment, password, confirmPassword } = formData;
 
-    // ✅ Frontend validation
     if (password !== confirmPassword) {
       return setError("Passwords do not match");
     }
@@ -41,20 +41,16 @@ const Register = () => {
     try {
       setLoading(true);
 
-      const res = await api.post("/api/student/register", {
+      await api.post("/api/student/register", {
         name,
         email,
         enrollment,
         password,
       });
 
-      console.log("REGISTER SUCCESS:", res.data);
-
-      // Optional: auto-redirect to login
+      // Redirect to login after successful registration
       navigate("/login");
-
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
@@ -65,9 +61,13 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
 
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-6">
-          CES Registration
+        {/* Header */}
+        <h2 className="text-3xl font-bold text-center text-blue-900 mb-1">
+          Member Registration
         </h2>
+        <p className="text-center text-sm text-gray-600 mb-6">
+          {SITE_CONFIG.societyName} • {SITE_CONFIG.collegeName}
+        </p>
 
         {/* Error message */}
         {error && (
@@ -77,6 +77,7 @@ const Register = () => {
         )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
+          
           {/* Name */}
           <div>
             <label className="block text-sm font-medium mb-1">
@@ -103,23 +104,23 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="example@mmmut.ac.in"
+              placeholder="your.email@college.edu"
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-900 outline-none"
             />
           </div>
 
-          {/* Enrollment */}
+          {/* Enrollment / ID */}
           <div>
             <label className="block text-sm font-medium mb-1">
-              Enrollment Number
+              Student ID / Enrollment Number
             </label>
             <input
               type="text"
               name="enrollment"
               value={formData.enrollment}
               onChange={handleChange}
-              placeholder="MMMUTXXXX"
+              placeholder="Enter your student ID"
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-900 outline-none"
             />

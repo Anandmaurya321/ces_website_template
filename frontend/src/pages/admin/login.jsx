@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../hooks/api";
+import { SITE_CONFIG } from "../../config/site_config";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const AdminLogin = () => {
       localStorage.setItem("adminToken", token);
       localStorage.setItem("adminInfo", JSON.stringify(admin));
 
-      // Navigate to dashboard
+      // Navigate to admin dashboard
       navigate("/admin/dashboard");
     } catch (err) {
       setError(
@@ -48,7 +49,7 @@ const AdminLogin = () => {
             Admin Login
           </h2>
           <p className="text-sm text-gray-600 mt-1">
-            Computer Engineering Society • MMMUT
+            {SITE_CONFIG.societyName} • {SITE_CONFIG.collegeName}
           </p>
         </div>
 
@@ -65,13 +66,15 @@ const AdminLogin = () => {
           {/* Email */}
           <div>
             <label className="block text-sm font-medium mb-1">
-              Admin Email / ID
+              Admin Email / Username
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@mmmut.ac.in"
+              placeholder={`admin@${SITE_CONFIG.collegeName
+                .toLowerCase()
+                .replace(/\s+/g, "")}.edu`}
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-900 outline-none"
             />
@@ -104,7 +107,7 @@ const AdminLogin = () => {
 
         {/* Footer */}
         <p className="text-xs text-gray-500 text-center mt-6">
-          Authorized personnel only. Unauthorized access is prohibited.
+          Authorized administrators only. Unauthorized access is prohibited.
         </p>
       </div>
     </div>

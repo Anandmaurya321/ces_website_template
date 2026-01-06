@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { SITE_CONFIG } from "../../config/site_config";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,31 +22,47 @@ const Navbar = () => {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* Logo */}
+        {/* Logo / Branding */}
         <div className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-blue-900">CES</span>
-          <span className="hidden sm:block text-sm text-gray-600">MMMUT</span>
+          <span className="text-xl font-bold text-blue-900">
+            {SITE_CONFIG.societyName}
+          </span>
+          <span className="hidden sm:block text-sm text-gray-600">
+            {SITE_CONFIG.collegeName}
+          </span>
         </div>
 
         {/* Navigation Links */}
         <ul className="hidden md:flex space-x-8 font-medium text-gray-700">
           <li>
-            <Link to="/our-community" className="hover:text-blue-900 transition">
-              Our Community
+            <Link
+              to="/community"
+              className="hover:text-blue-900 transition"
+            >
+              Community
             </Link>
           </li>
           <li>
-            <Link to="/events" className="hover:text-blue-900 transition">
+            <Link
+              to="/events"
+              className="hover:text-blue-900 transition"
+            >
               Events
             </Link>
           </li>
           <li>
-            <Link to="/guid" className="hover:text-blue-900 transition">
-              GUID
+            <Link
+              to="/resources"
+              className="hover:text-blue-900 transition"
+            >
+              Resources
             </Link>
           </li>
           <li>
-            <Link to="/admin" className="hover:text-blue-900 transition">
+            <Link
+              to="/admin"
+              className="hover:text-blue-900 transition"
+            >
               Admin
             </Link>
           </li>
@@ -86,7 +103,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu (placeholder for extension) */}
         <div className="md:hidden">
           <button className="text-blue-900 text-2xl">☰</button>
         </div>

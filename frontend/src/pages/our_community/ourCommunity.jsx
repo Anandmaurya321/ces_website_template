@@ -1,5 +1,5 @@
-
 import React from "react";
+import { SITE_CONFIG } from "../../config/site_config";
 
 const OurCommunity = () => {
   return (
@@ -10,7 +10,7 @@ const OurCommunity = () => {
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-3">Our Community</h1>
           <p className="text-lg opacity-90">
-            Computer Engineering Society • MMMUT
+            {SITE_CONFIG.societyName} • {SITE_CONFIG.collegeName}
           </p>
         </div>
       </section>
@@ -19,13 +19,14 @@ const OurCommunity = () => {
       <section className="py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-semibold mb-4">
-            About the CES Community
+            About the Community
           </h2>
           <p className="text-gray-700 leading-relaxed">
-            The CES Community at Madan Mohan Malaviya University of Technology is a
-            vibrant network of students, alumni, and faculty members. Our
-            community fosters collaboration, technical excellence, leadership,
-            and innovation through continuous learning and peer engagement.
+            The {SITE_CONFIG.societyName} community is a vibrant network of
+            students, alumni, and mentors who share a passion for learning,
+            collaboration, and innovation. The community promotes technical
+            excellence, leadership development, and peer-driven growth through
+            active participation and knowledge sharing.
           </p>
         </div>
       </section>
@@ -46,7 +47,7 @@ const OurCommunity = () => {
                 <div className="w-24 h-24 mx-auto mb-3 rounded-full bg-gray-300" />
                 <h3 className="font-semibold text-lg">Member Name</h3>
                 <p className="text-sm text-gray-600">
-                  Year • Branch
+                  Year • Department
                 </p>
               </div>
             ))}
@@ -58,7 +59,7 @@ const OurCommunity = () => {
       <section className="py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-semibold mb-8 text-center">
-            Our Alumni
+            Alumni Network
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -70,7 +71,7 @@ const OurCommunity = () => {
                 <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-300" />
                 <h3 className="font-semibold text-lg">Alumni Name</h3>
                 <p className="text-sm text-gray-600">
-                  Batch • Company / Higher Studies
+                  Batch • Organization / Higher Studies
                 </p>
               </div>
             ))}
@@ -78,28 +79,28 @@ const OurCommunity = () => {
         </div>
       </section>
 
-      {/* Winners & Achievements */}
+      {/* Achievements */}
       <section className="bg-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-semibold mb-8 text-center">
-            Winners & Achievements
+            Achievements & Recognition
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((winner) => (
+            {[1, 2, 3].map((item) => (
               <div
-                key={winner}
+                key={item}
                 className="rounded-lg overflow-hidden shadow-sm bg-gray-100"
               >
                 <div className="h-40 bg-gray-300 flex items-center justify-center">
-                  <span className="text-gray-500">Poster Image</span>
+                  <span className="text-gray-500">Image / Poster</span>
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold">
-                    Competition / Event Name
+                    Event or Competition Name
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Winner • Year
+                    Achievement • Year
                   </p>
                 </div>
               </div>
@@ -112,28 +113,28 @@ const OurCommunity = () => {
       <section className="py-12 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl font-semibold mb-6">
-            Our Community Values
+            Our Core Values
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <h3 className="font-semibold text-lg mb-2">Collaboration</h3>
               <p className="text-sm text-gray-600">
-                Working together to solve problems and build impactful solutions.
+                Encouraging teamwork and collective problem-solving.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <h3 className="font-semibold text-lg mb-2">Innovation</h3>
               <p className="text-sm text-gray-600">
-                Encouraging creativity and technological advancement.
+                Inspiring creativity and adoption of emerging technologies.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm">
               <h3 className="font-semibold text-lg mb-2">Leadership</h3>
               <p className="text-sm text-gray-600">
-                Developing responsible and confident future engineers.
+                Building responsible, confident, and future-ready leaders.
               </p>
             </div>
           </div>

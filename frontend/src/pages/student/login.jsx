@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../hooks/api";
+import { SITE_CONFIG } from "../../config/site_config";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,17 +27,16 @@ const Login = () => {
         password,
       });
 
-      console.log("LOGIN SUCCESS:", res.data);
-
       // 🔐 Save token & student info
       localStorage.setItem("studentToken", res.data.token);
-      localStorage.setItem("studentInfo", JSON.stringify(res.data.student));
-      navigate('/')
-      window.location.reload();
-      
+      localStorage.setItem(
+        "studentInfo",
+        JSON.stringify(res.data.student)
+      );
 
+      navigate("/");
+      window.location.reload();
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
@@ -47,9 +47,13 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
 
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-6">
-          CES Login
+        {/* Header */}
+        <h2 className="text-3xl font-bold text-center text-blue-900 mb-1">
+          Member Login
         </h2>
+        <p className="text-center text-sm text-gray-600 mb-6">
+          {SITE_CONFIG.societyName} • {SITE_CONFIG.collegeName}
+        </p>
 
         {/* Error message */}
         {error && (
@@ -59,6 +63,7 @@ const Login = () => {
         )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
+          
           {/* Email */}
           <div>
             <label className="block text-sm font-medium mb-1">
@@ -68,7 +73,7 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@mmmut.ac.in"
+              placeholder="your.email@college.edu"
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-900 outline-none"
             />
