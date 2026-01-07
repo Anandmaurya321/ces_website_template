@@ -269,4 +269,3 @@ If you find this template useful:
 ### 🚀 Built to save students time and help societies go online faster.
 
 Happy building! 🎉
- ok so update my redme file here with the file structure and showcase it::>>
