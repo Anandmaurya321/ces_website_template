@@ -8,14 +8,22 @@ const loginAdmin= async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log("email " , "password")
+
     const admin = await Admin.findOne({ email });
-    if (!admin)
+    if (!admin){
+      console.log("email is not matching")
       return res.status(404).json({ message: "Invalid credentials" });
+    }
+      
 
     const isMatch = await bcrypt.compare(password, admin.password);
 
-    if (!isMatch)
-      return res.status(401).json({ message: "Invalid credentials" });
+    if (!isMatch){
+        console.log("password is not currect")
+        return res.status(401).json({ message: "Invalid credentials" });
+    }
+      
 
     res.status(200).json({
       message: "Login successful",
