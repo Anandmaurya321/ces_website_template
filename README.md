@@ -6,19 +6,32 @@ This project is designed so that **any college society can clone the repo, chang
 
 ---
 
+## 📸 Screen Previews
+
+### 🌐 User Interface
+| Home Page | Events Gallery | Student Profile |
+| :---: | :---: | :---: |
+| ![Home Page](./images/home_page.png) | ![All Events](./images/allEvents.png) | ![Student Profile](./images/studentProfilePage.png) |
+
+### 🛡️ Admin Panel
+| Admin Dashboard | Event Management | Admin Profile |
+| :---: | :---: | :---: |
+| ![Dashboard](./images/adminDashboard.png) | ![Create Event](./images/createEvent.png) | ![Admin Profile](./images/adminProfile.png) |
+
+---
+
 ## ✨ Features
 
 * ⚛️ **React-based frontend** (clean component structure)
 * 🎨 **Modern UI** with Tailwind CSS
 * 🔐 **Authentication system**
-
   * Student Login & Registration
   * Admin Login & Dashboard
 * 📅 **Events management** (workshops, hackathons, seminars, fests)
 * 👥 **Community & Alumni sections**
 * 🧩 **Fully reusable template** (no hardcoded college/society names)
 * ⚙️ **Centralized configuration** via one file
-
+  
 ---
 
 ## 🧠 Key Idea (Why this template?)
@@ -38,9 +51,6 @@ export const SITE_CONFIG = {
   collegeName: "Your College Name",
   email: "contact@yoursociety.com",
 };
-```
-
-👉 Change this file **once**, and the entire website updates automatically.
 
 ---
 
@@ -269,3 +279,4 @@ If you find this template useful:
 ### 🚀 Built to save students time and help societies go online faster.
 
 Happy building! 🎉
+
