@@ -31,7 +31,7 @@ This project is designed so that **any college society can clone the repo, chang
 * 👥 **Community & Alumni sections**
 * 🧩 **Fully reusable template** (no hardcoded college/society names)
 * ⚙️ **Centralized configuration** via one file
-  
+
 ---
 
 ## 🧠 Key Idea (Why this template?)
@@ -279,4 +279,3 @@ If you find this template useful:
 ### 🚀 Built to save students time and help societies go online faster.
 
 Happy building! 🎉
-
